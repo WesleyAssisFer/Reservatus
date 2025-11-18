@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public class ProfessorService {
     // Dependencia
-    private ProfessorRepository professorRepository;
+    private final ProfessorRepository professorRepository;
     public ProfessorService(ProfessorRepository professorRepository){
         this.professorRepository = professorRepository;
     }
@@ -22,11 +22,7 @@ public class ProfessorService {
 
     // Listar por Id
     public Optional<ProfessorModel> listarPorId(Long id ){
-        if(id == null || id <= 0){
-            return Optional.empty();
-        }else {
             return professorRepository.findById(id);
-        }
 
     }
 
@@ -36,19 +32,16 @@ public class ProfessorService {
     }
 
     // Atualizar
-    public Optional<ProfessorModel> atualizarProfessor(Long id,ProfessorModel professorAtulizado){
+    public Optional<ProfessorModel> atualizarProfessor(Long id,ProfessorModel professorAtualizado){
         return listarPorId(id)
-                .map(professorAntigo -> {
-                    professorAntigo.setNome(professorAtulizado.getNome());
-
-                    professorRepository.save(professorAntigo);
-                    return professorAntigo;
+                .map(professor -> {
+                    professor.setNome(professorAtualizado.getNome());
+                    return professorRepository.save(professor);
                 });
     }
 
     // deletar por id
-
-    public boolean deletarProfessor(Long id, ProfessorModel professorModel){
+    public boolean deletarProfessor(Long id){
         if(professorRepository.existsById(id)){
             professorRepository.deleteById(id);
             return true;

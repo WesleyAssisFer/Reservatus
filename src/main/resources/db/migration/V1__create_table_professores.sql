@@ -1,4 +1,4 @@
-CREATE TABLE professores(
+CREATE TABLE tb_professores(
 id BIGINT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(255) NOT NULL
 );

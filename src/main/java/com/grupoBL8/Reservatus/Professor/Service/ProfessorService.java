@@ -23,7 +23,6 @@ public class ProfessorService {
     // Listar por Id
     public Optional<ProfessorModel> listarPorId(Long id ){
             return professorRepository.findById(id);
-
     }
 
     // Salvar

@@ -27,5 +27,28 @@ public class SalaService {
     }
 
     // Salvar
+    public SalaModel salvar(SalaModel salaModel){
+        return salaRespository.save(salaModel);
+    }
+
+    // Atualizar
+    public Optional<SalaModel> atualizar( Long id,SalaModel salaAtualizada){
+        return salaRespository.findById(id)
+                .map(sala -> {
+                    sala.setNome(salaAtualizada.getNome());
+                    return sala;
+                });
+    }
+
+    // Deletar
+    public boolean delatar(Long id){
+        if(salaRespository.findById(id).isPresent()){
+            salaRespository.deleteById(id);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 
 }

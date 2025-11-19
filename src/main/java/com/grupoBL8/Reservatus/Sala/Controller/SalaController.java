@@ -51,7 +51,7 @@ public class SalaController {
         if(salaService.deletar(id)){
             return ResponseEntity.ok("Sala de Id " + id + " deletado com sucesso");
         }else {
-            return ResponseEntity.status(404).body("Id não encontrado");
+            return ResponseEntity.status(404).body("Id " + id + " não encontrado");
         }
     }
 }

@@ -52,7 +52,7 @@ public class ProfessorController {
         if(professorService.deletarProfessor(id)){
             return ResponseEntity.ok("Professor de id " + id + " deletado com sucesso");
         }else{
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).body("Id " + id + " não encotrado");
         }
     }
 }

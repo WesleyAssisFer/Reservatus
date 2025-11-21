@@ -22,33 +22,30 @@ public class ProfessorService {
     }
 
     // Lista todos
-    public List<ProfessorDTO> listarTodos(){
-        List<ProfessorModel> listarProfessores = professorRepository.findAll();
-        return listarProfessores.stream()
-                .map(professorMapper::map)
-                .collect(Collectors.toList());
+    public List<ProfessorModel> listarTodos(){
+        return professorRepository.findAll();
     }
 
     // Listar por Id
-    public ProfessorDTO listarPorId(Long id ){
-      Optional<ProfessorModel> professorListarId = professorRepository.findById(id);
-        return professorListarId.map(professorMapper::map)
-                .orElse(null);
-
+    public Optional<ProfessorModel> listarPorId(Long id ){
+        return professorRepository.findById(id);
     }
 
     // Salvar
-    public ProfessorModel salvar(ProfessorModel professorModel){
-        return professorRepository.save(professorModel);
+    public ProfessorDTO salvar(ProfessorModel professorModel){
+        ProfessorModel modelSalvar = professorRepository.save(professorModel);
+            return professorMapper.map(modelSalvar);
     }
 
     // Atualizar
-    public Optional<ProfessorModel> atualizarProfessor(Long id,ProfessorModel professorAtualizado){
-        return listarPorId(id)
+    public Optional<ProfessorDTO> atualizarProfessor(Long id,ProfessorModel professorAtualizado){
+        return professorRepository.findById(id)
                 .map(professor -> {
                     professor.setNome(professorAtualizado.getNome());
-                    return professorRepository.save(professor);
+                    ProfessorModel modelSalvo = professorRepository.save(professor);
+                    return professorMapper.map(modelSalvo);
                 });
+
     }
 
     // deletar por id

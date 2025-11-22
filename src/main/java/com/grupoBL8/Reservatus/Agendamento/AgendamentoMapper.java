@@ -5,8 +5,6 @@ import com.grupoBL8.Reservatus.Professor.Model.ProfessorModel;
 import com.grupoBL8.Reservatus.Sala.Model.SalaModel;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Documented;
-
 @Component
 public class AgendamentoMapper {
 
@@ -23,8 +21,8 @@ public class AgendamentoMapper {
     public AgendamentoDTO map(AgendamentoModel agendamentoModel){
         AgendamentoDTO dto = new AgendamentoDTO();
         dto.setId(agendamentoModel.getId());
-        dto.setId_Professor(agendamentoModel.getProfessorModel().getId());
-        dto.setId_Sala(agendamentoModel.getSalaModel().getId());
+        dto.setIdProfessor(agendamentoModel.getProfessorModel().getId());
+        dto.setIdSala(agendamentoModel.getSalaModel().getId());
         dto.setHorario(agendamentoModel.getHorario());
 
         return dto;

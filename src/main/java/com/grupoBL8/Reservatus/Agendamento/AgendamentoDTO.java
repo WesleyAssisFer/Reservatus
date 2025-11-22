@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class AgendamentoDTO {
 
     private Long id;
-    private Long id_Professor;
-    private Long id_Sala;
+    private Long idProfessor;
+    private Long idSala;
     private LocalDateTime horario;
 }

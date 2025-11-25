@@ -7,11 +7,11 @@ CREATE TABLE tb_agendamento(
 
     CONSTRAINT fk_agendamento_professor
         FOREIGN KEY (professor_id)
-        REFERENCES professor(id)
-        ON DELETE CASCADE
+        REFERENCES tb_professores(id)
+        ON DELETE CASCADE,
 
     CONSTRAINT fk_agendamento_sala
         FOREIGN KEY (sala_id)
-        REFERENCES sala(id)
+        REFERENCES tb_sala(id)
         ON DELETE CASCADE
 );

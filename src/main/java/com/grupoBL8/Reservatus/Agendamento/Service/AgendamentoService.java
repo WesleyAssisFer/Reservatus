@@ -45,6 +45,16 @@ public class AgendamentoService {
 
     // Salvar
     public AgendamentoDTO salvar (AgendamentoDTO dto){
+
+        // Veroficar conflito
+        if (agendamentoRepository.existesBySalaModelIdAndHorario(dto.getIdSala(), dto.getHorario())){
+            throw  new RuntimeException("Está sala já está agendada nesse horário");
+        }
+        if(agendamentoRepository.existesByProfessorModelIdAndHorario(dto.getIdProfessor(), dto.getHorario())){
+            throw new RuntimeException("Este professor já possui um agendamento neste horário.");
+        }
+
+
        // Buscar Professor
         ProfessorModel professorModel = professorRepository.findById(dto.getIdProfessor())
                 .orElseThrow(()-> new RuntimeException("Professor não encontrado"));
@@ -64,20 +74,31 @@ public class AgendamentoService {
     }
 
     // Atualizar
-    public Optional<AgendamentoDTO> atualizar(Long id, AgendamentoDTO dtoAtualizado){
+    public Optional<AgendamentoDTO> atualizar(Long id, AgendamentoDTO dto){
       return agendamentoRepository.findById(id)
               .map(agendamento ->{
 
-                ProfessorModel professor = professorRepository.findById(dtoAtualizado.getIdProfessor())
+                  // Verificar conflito de sala
+                  if(agendamentoRepository.existesBySalaModelIdAndHorario(dto.getIdSala(),dto.getHorario()) && !agendamento.getId().equals(id)){
+                      throw new RuntimeException("Esta sala já está agendada neste horário.");
+
+                  }
+
+                  // Verificar conflito professor
+                  if(agendamentoRepository.existesByProfessorModelIdAndHorario(dto.getIdProfessor(), dto.getHorario()) && !agendamento.getId().equals(id)){
+                      throw new RuntimeException("Este professor já possui outro agendamento neste horário.");
+                  }
+
+                ProfessorModel professor = professorRepository.findById(dto.getIdProfessor())
                             .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
 
-                SalaModel sala = salaRepository.findById(dtoAtualizado.getIdSala())
+                SalaModel sala = salaRepository.findById(dto.getIdSala())
                         .orElseThrow(() -> new RuntimeException("Sala não encontrada"));
 
                     // Atualiza entidade
                     agendamento.setProfessorModel(professor);
                     agendamento.setSalaModel(sala);
-                    agendamento.setHorario(dtoAtualizado.getHorario());
+                    agendamento.setHorario(dto.getHorario());
 
                   // Salvar Atualizado
                   AgendamentoModel salvo = agendamentoRepository.save(agendamento);

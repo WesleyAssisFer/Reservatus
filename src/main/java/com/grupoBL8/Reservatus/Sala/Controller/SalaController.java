@@ -1,6 +1,7 @@
 package com.grupoBL8.Reservatus.Sala.Controller;
 
 import com.grupoBL8.Reservatus.Sala.Model.SalaModel;
+import com.grupoBL8.Reservatus.Sala.SalaDTO;
 import com.grupoBL8.Reservatus.Sala.Service.SalaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +20,13 @@ public class SalaController {
 
     // Listar Todos
     @GetMapping("/listar")
-    public ResponseEntity<List<SalaModel>> listarTodos(){
+    public ResponseEntity<List<SalaDTO>> listarTodos(){
         return ResponseEntity.ok(salaService.listarTodos());
     }
 
     // Listar Por id
     @GetMapping("/listar/{id}")
-    public ResponseEntity<SalaModel> listarId(@PathVariable Long id){
+    public ResponseEntity<SalaDTO> listarId(@PathVariable Long id){
         return salaService.listarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -33,14 +34,14 @@ public class SalaController {
 
     // Salvar
     @PostMapping("/salvar")
-    public ResponseEntity<SalaModel> salvar(@RequestBody SalaModel salaModel){
-        return ResponseEntity.ok(salaService.salvar(salaModel));
+    public ResponseEntity<SalaDTO> salvar(@RequestBody SalaDTO salaDTO){
+        return ResponseEntity.ok(salaService.salvar(salaDTO));
     }
 
     // Atualizar
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<SalaModel> atualizar(@PathVariable Long id, @RequestBody SalaModel salaModel){
-            return salaService.atualizar(id, salaModel)
+    public ResponseEntity<SalaDTO> atualizar(@PathVariable Long id, @RequestBody SalaDTO salaDTO){
+            return salaService.atualizar(id, salaDTO)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
     }

@@ -1,5 +1,6 @@
 package com.grupoBL8.Reservatus.Agendamento.Controller;
 
+import com.grupoBL8.Reservatus.Agendamento.AgendamentoDTO;
 import com.grupoBL8.Reservatus.Agendamento.Model.AgendamentoModel;
 import com.grupoBL8.Reservatus.Agendamento.Service.AgendamentoService;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,13 @@ public class AgendamentoController {
 
     // Listar Todos
     @GetMapping("/listar")
-    public ResponseEntity<List<AgendamentoModel>> listarTodos(){
+    public ResponseEntity<List<AgendamentoDTO>> listarTodos(){
         return ResponseEntity.ok(agendamentoService.listarTodos());
     }
 
     // Listar Por id
     @GetMapping("/listar/{id}")
-    public ResponseEntity<AgendamentoModel> listarPorId(@PathVariable Long id){
+    public ResponseEntity<AgendamentoDTO> listarPorId(@PathVariable Long id){
         return agendamentoService.listarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -33,14 +34,14 @@ public class AgendamentoController {
 
     // Salvar
     @PostMapping("/salvar")
-    public ResponseEntity<AgendamentoModel> salvar(@RequestBody AgendamentoModel agendamentoModel){
-        return ResponseEntity.ok(agendamentoService.salvar(agendamentoModel));
+    public ResponseEntity<AgendamentoDTO> salvar(@RequestBody AgendamentoDTO agendamentoDTO){
+        return ResponseEntity.ok(agendamentoService.salvar(agendamentoDTO));
     }
 
     // Atualizar
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<AgendamentoModel> atualizar(@PathVariable Long id, @RequestBody AgendamentoModel agendamentoModel){
-        return agendamentoService.atualizar(id, agendamentoModel)
+    public ResponseEntity<AgendamentoDTO> atualizar(@PathVariable Long id, @RequestBody AgendamentoDTO agendamentoDTO){
+        return agendamentoService.atualizar(id, agendamentoDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendário de Agendamentos</title>
+</head>
+<body>
+
+<h2 th:text="'Sala: ' + ${sala.nome}"></h2>
+<h3 th:text="'Data: ' + ${data}"></h3>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Horário</th>
+        <th>Status</th>
+        <th>Ação</th>
+    </tr>
+
+    <tr th:each="hora : ${horarios}">
+        <td th:text="${hora}"></td>
+
+        <!-- verifica se existe agendamento nesse horário -->
+        <td th:text="${
+                #lists.contains(
+                    agendamentos.?[horario.toLocalTime() == hora],
+                    agendamentos.?[horario.toLocalTime() == hora][0]
+                ) ?
+                'Ocupado' :
+                'Disponível'
+            }"></td>
+
+        <td>
+                <span th:if="${#lists.isEmpty(agendamentos.?[horario.toLocalTime() == hora])}">
+                    <a th:href="@{/web/agendamento/form(salaId=${sala.id}, data=${data}, horario=${hora})}">
+                        Agendar
+                    </a>
+                </span>
+            <span th:if="${!#lists.isEmpty(agendamentos.?[horario.toLocalTime() == hora])}">
+                    —
+                </span>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

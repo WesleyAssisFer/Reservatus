@@ -118,4 +118,15 @@ public class AgendamentoService {
         }
     }
 
+    // Filtrar Sala + dia
+
+    public List<AgendamentoDTO> listarPorSalaEDia(Long salaId, LocalDate dia) {
+        return agendamentoRepository.findAll().stream()
+                .filter(a -> a.getSalaModel().getId().equals(salaId))
+                .filter(a -> a.getHorario().toLocalDate().equals(dia))
+                .map(agendamentoMapper::map)
+                .collect(Collectors.toList());
+    }
+
+
 }

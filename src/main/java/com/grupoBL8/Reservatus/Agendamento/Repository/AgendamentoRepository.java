@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public interface AgendamentoRepository extends JpaRepository<AgendamentoModel, Long> {
 
-     boolean existesBySalaModelIdAndHorario(Long salaId, LocalDateTime horaio);
+     boolean existsBySalaModelIdAndHorario(Long salaId, LocalDateTime horaio);
 
-     boolean existesByProfessorModelIdAndHorario(Long professorId, LocalDateTime horario);
+     boolean existsByProfessorModelIdAndHorario(Long professorId, LocalDateTime horario);
 }

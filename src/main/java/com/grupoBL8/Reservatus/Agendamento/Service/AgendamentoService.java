@@ -10,6 +10,7 @@ import com.grupoBL8.Reservatus.Sala.Model.SalaModel;
 import com.grupoBL8.Reservatus.Sala.Repository.SalaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,10 +48,10 @@ public class AgendamentoService {
     public AgendamentoDTO salvar (AgendamentoDTO dto){
 
         // Veroficar conflito
-        if (agendamentoRepository.existesBySalaModelIdAndHorario(dto.getIdSala(), dto.getHorario())){
+        if (agendamentoRepository.existsBySalaModelIdAndHorario(dto.getIdSala(), dto.getHorario())){
             throw  new RuntimeException("Está sala já está agendada nesse horário");
         }
-        if(agendamentoRepository.existesByProfessorModelIdAndHorario(dto.getIdProfessor(), dto.getHorario())){
+        if(agendamentoRepository.existsByProfessorModelIdAndHorario(dto.getIdProfessor(), dto.getHorario())){
             throw new RuntimeException("Este professor já possui um agendamento neste horário.");
         }
 
@@ -79,13 +80,13 @@ public class AgendamentoService {
               .map(agendamento ->{
 
                   // Verificar conflito de sala
-                  if(agendamentoRepository.existesBySalaModelIdAndHorario(dto.getIdSala(),dto.getHorario()) && !agendamento.getId().equals(id)){
+                  if(agendamentoRepository.existsBySalaModelIdAndHorario(dto.getIdSala(),dto.getHorario()) && !agendamento.getId().equals(id)){
                       throw new RuntimeException("Esta sala já está agendada neste horário.");
 
                   }
 
                   // Verificar conflito professor
-                  if(agendamentoRepository.existesByProfessorModelIdAndHorario(dto.getIdProfessor(), dto.getHorario()) && !agendamento.getId().equals(id)){
+                  if(agendamentoRepository.existsByProfessorModelIdAndHorario(dto.getIdProfessor(), dto.getHorario()) && !agendamento.getId().equals(id)){
                       throw new RuntimeException("Este professor já possui outro agendamento neste horário.");
                   }
 
@@ -108,6 +109,15 @@ public class AgendamentoService {
                 });
     }
 
+    // Filtrar Sala + dia
+    public List<AgendamentoDTO> listarPorSalaEDia(Long salaId, LocalDate dia) {
+        return agendamentoRepository.findAll().stream()
+                .filter(a -> a.getSalaModel().getId().equals(salaId))
+                .filter(a -> a.getHorario().toLocalDate().equals(dia))
+                .map(agendamentoMapper::map)
+                .collect(Collectors.toList());
+    }
+
     // Deletar
     public boolean deletar(Long id){
         if(listarPorId(id).isPresent()){
@@ -117,16 +127,4 @@ public class AgendamentoService {
             return false;
         }
     }
-
-    // Filtrar Sala + dia
-
-    public List<AgendamentoDTO> listarPorSalaEDia(Long salaId, LocalDate dia) {
-        return agendamentoRepository.findAll().stream()
-                .filter(a -> a.getSalaModel().getId().equals(salaId))
-                .filter(a -> a.getHorario().toLocalDate().equals(dia))
-                .map(agendamentoMapper::map)
-                .collect(Collectors.toList());
-    }
-
-
 }

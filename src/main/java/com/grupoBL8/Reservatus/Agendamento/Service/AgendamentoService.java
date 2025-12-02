@@ -52,7 +52,7 @@ public class AgendamentoService {
             throw  new RuntimeException("Está sala já está agendada nesse horário");
         }
         if(agendamentoRepository.existsByProfessorModelIdAndHorario(dto.getIdProfessor(), dto.getHorario())){
-            throw new RuntimeException("Este professor já possui um agendamento neste horário.");
+            throw new RuntimeException("Já existe um agendamento neste horário.");
         }
 
 

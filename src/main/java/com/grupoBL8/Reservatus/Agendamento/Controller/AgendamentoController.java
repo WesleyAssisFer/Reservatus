@@ -3,6 +3,7 @@ package com.grupoBL8.Reservatus.Agendamento.Controller;
 import com.grupoBL8.Reservatus.Agendamento.AgendamentoDTO;
 import com.grupoBL8.Reservatus.Agendamento.Model.AgendamentoModel;
 import com.grupoBL8.Reservatus.Agendamento.Service.AgendamentoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +35,18 @@ public class AgendamentoController {
 
     // Salvar
     @PostMapping("/salvar")
-    public ResponseEntity<AgendamentoDTO> salvar(@RequestBody AgendamentoDTO agendamentoDTO){
-        return ResponseEntity.ok(agendamentoService.salvar(agendamentoDTO));
+    public ResponseEntity<?> salvar(@RequestBody AgendamentoDTO dto) {
+        try {
+            AgendamentoDTO salvo = agendamentoService.salvar(dto);
+            return ResponseEntity.ok(salvo);
+        }
+        catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage()); // <-- aqui volta só a mensagem
+        }
     }
+
 
     // Atualizar
     @PutMapping("/atualizar/{id}")

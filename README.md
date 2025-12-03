@@ -1,6 +1,6 @@
-# 📅 Reservatus — Sistema de Reserva de Salas e Equipamentos
+# 📅 Reservatus — Sistema de Reserva de Salas
 
-**Reservatus** é um sistema desenvolvido em **Java** com **Spring Boot** para gerenciar reservas de salas, laboratórios e equipamentos dentro de uma instituição.
+**Reservatus** é um sistema desenvolvido em **Java** com **Spring Boot** para gerenciar reservas de salas e laboratórios dentro de uma instituição.
 
 O projeto foi criado para substituir o antigo controle manual em papel, trazendo organização, histórico digital e validação inteligente de conflitos.
 
@@ -11,7 +11,6 @@ O projeto foi criado para substituir o antigo controle manual em papel, trazendo
 ### ✔️ Cadastro e Gestão
 * **Agendamentos:** Cadastro completo envolvendo Professor, Sala e Horário.
 * **Validação:** O sistema garante a integridade das reservas.
-* **Listagem:** Visualização de todos os horários ocupados.
 
 ### ✔️ Validação Inteligente (Regras de Negócio)
 O sistema impede automaticamente conflitos lógicos:
@@ -65,12 +64,12 @@ Cria um novo agendamento. Retorna erro `400 Bad Request` com mensagem explicativ
 }
 ```
 
-➤ Listar Agendamentos
+### ➤ Listar Agendamentos
 GET /agendamento
 
 Retorna a lista completa de todos os agendamentos cadastrados.
 
-🧠 Lógica de Validação
+## 🧠 Lógica de Validação
 A segurança contra conflitos é feita na camada de Service.
 
 No Service:
@@ -86,39 +85,41 @@ catch (RuntimeException e) {
 }
 Isso garante que a resposta para o usuário seja clara e direta.
 
-🗂️ Estrutura do Projeto
+## 🗂️ Estrutura do Projeto
+```text
 src/
- └── main/
-     ├── java/com.grupoBL8.Reservatus/
-     │       ├── Agendamento/
-     │       │       ├── Controller/
-     │       │       ├── Service/
-     │       │       ├── Repository/
-     │       │       ├── Model/
-     │       │       └── AgendamentoDTO.java
-     │       └── ...
-     └── resources/
-             ├── application.properties
-             └── schema.sql (opcional para versionamento)
+└── main/
+    ├── java/com/grupoBL8/Reservatus/
+    │   ├── Agendamento/
+    │   │   ├── Controller/
+    │   │   ├── Service/
+    │   │   ├── Repository/
+    │   │   ├── Model/
+    │   │   └── AgendamentoDTO.java
+    │   └── ...
+    └── resources/
+        ├── application.properties
+        └── schema.sql (opcional para versionamento)
+```
 
-
-🏛️ Banco de Dados
+## 🏛️ Banco de Dados
 O projeto suporta duas estratégias:
 
 Com schema.sql: Controle total sobre tipos, tamanhos e versões da estrutura.
 
 Sem schema: O Hibernate/Spring cria as tabelas automaticamente (ideal para dev/testes com H2).
 
-🎨 Futuras Melhorias (Roadmap)
-[ ] Interface Web com calendário visual.
+## 🎨 Futuras Melhorias (Roadmap)
+- Interface Web com calendário visual.
 
-[ ] Sistema de Login por cargo (Professor, Coordenador, Admin).
+- Sistema de Login por cargo (Professor, Coordenador, Admin).
 
-[ ] Dashboard com métricas de ocupação semanal.
+- Dashboard com métricas de ocupação semanal.
 
-[ ] Cadastro de Salas e Professores (CRUD) pelo próprio sistema.
+- Cadastro de Salas e Professores (CRUD) pelo próprio sistema.
 
-[ ] Notificação automática de confirmação (E-mail).
+- Notificação automática de confirmação (E-mail).
 
-👨‍💻 Autor
+## 👨‍💻 Autor
 Projeto desenvolvido como solução real para o colégio onde trabalho, visando modernizar e substituir o controle manual de reservas.
+

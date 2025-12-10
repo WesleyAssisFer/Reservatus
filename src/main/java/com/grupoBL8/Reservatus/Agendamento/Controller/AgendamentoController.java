@@ -47,7 +47,6 @@ public class AgendamentoController {
         }
     }
 
-
     // Atualizar
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<AgendamentoDTO> atualizar(@PathVariable Long id, @RequestBody AgendamentoDTO agendamentoDTO){
